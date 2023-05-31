@@ -6,7 +6,7 @@ spec:
   entryPoints:
     - web
   routes:
-    - match: "Host(`beta.felleskomponent.no`) && (PathPrefix( `/utdanning/ot`) && Headers(`x-org-id`, `tffk.no`)"
+    - match: "Host(`beta.felleskomponent.no`) && PathPrefix(`/utdanning/ot`) && Headers(`x-org-id`, `tffk.no`)"
       kind: Rule
       services:
         - name: fint-core-consumer-utdanning-ot
