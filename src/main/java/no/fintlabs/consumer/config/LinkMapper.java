@@ -8,7 +8,7 @@ public class LinkMapper {
 
     public static Map<String, String> linkMapper() {
         return ImmutableMap.<String, String>builder()
-                .put("no.fint.model.felles.Person", "/utdanning/ot/person")
+                .put("no.fint.model.utdanning.ot.Person", "/utdanning/ot/person")
                 .put("no.fint.model.utdanning.ot.OTUngdom", "/utdanning/ot/otungdom")
                 .build();
     }
