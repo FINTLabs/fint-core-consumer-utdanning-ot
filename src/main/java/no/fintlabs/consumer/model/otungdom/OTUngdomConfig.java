@@ -14,6 +14,6 @@ public class OTUngdomConfig extends ConsumerConfig<OTUngdomResource> {
 
     @Override
     protected String resourceName() {
-        return "larling";
+        return "otungdom";
     }
 }
