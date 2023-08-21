@@ -45,7 +45,7 @@ public class PersonLinker extends FintLinker<PersonResource> {
     public Stream<String> getAllSelfHrefs(PersonResource resource) {
         Stream.Builder<String> builder = Stream.builder();
         if (!isNull(resource.getFodselsnummer()) && !StringUtils.isEmpty(resource.getFodselsnummer().getIdentifikatorverdi())) {
-            builder.add(createHrefWithId(resource.getFodselsnummer().getIdentifikatorverdi(), "systemid"));
+            builder.add(createHrefWithId(resource.getFodselsnummer().getIdentifikatorverdi(), "fodselsnummer"));
         }
 
         return builder.build();
