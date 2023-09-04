@@ -1,7 +1,7 @@
 package no.fintlabs.consumer.model.otungdom;
 
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
-import no.fint.model.resource.utdanning.ot.OTUngdomResource;
+import no.fint.model.resource.utdanning.ot.OtUngdomResource;
 import no.fintlabs.cache.Cache;
 import no.fintlabs.cache.CacheManager;
 import no.fintlabs.cache.packing.PackingTypes;
@@ -14,49 +14,49 @@ import javax.annotation.PostConstruct;
 import java.util.Optional;
 
 @Service
-public class OTUngdomService extends CacheService<OTUngdomResource> {
+public class OtUngdomService extends CacheService<OtUngdomResource> {
 
-    private final OTUngdomKafkaConsumer elevfravarKafkaConsumer;
-    private final OTUngdomLinker linker;
+    private final OtUngdomKafkaConsumer elevfravarKafkaConsumer;
+    private final OtUngdomLinker linker;
 
-    public OTUngdomService(
-            OTUngdomConfig config,
+    public OtUngdomService(
+            OtUngdomConfig config,
             CacheManager cacheManager,
-            OTUngdomKafkaConsumer kafkaConsumer,
-            OTUngdomLinker linker) {
+            OtUngdomKafkaConsumer kafkaConsumer,
+            OtUngdomLinker linker) {
         super(config, cacheManager, kafkaConsumer);
         this.elevfravarKafkaConsumer = kafkaConsumer;
         this.linker = linker;
     }
 
     @Override
-    protected Cache<OTUngdomResource> initializeCache(CacheManager cacheManager, ConsumerConfig<OTUngdomResource> consumerConfig, String s) {
+    protected Cache<OtUngdomResource> initializeCache(CacheManager cacheManager, ConsumerConfig<OtUngdomResource> consumerConfig, String s) {
         return cacheManager.create(PackingTypes.POJO, consumerConfig.getOrgId(), consumerConfig.getResourceName());
     }
 
     @PostConstruct
     private void registerKafkaListener() {
-        long retension = elevfravarKafkaConsumer.registerListener(OTUngdomResource.class, this::addResourceToCache);
+        long retension = elevfravarKafkaConsumer.registerListener(OtUngdomResource.class, this::addResourceToCache);
         getCache().setRetentionPeriodInMs(retension);
     }
 
-    private void addResourceToCache(ConsumerRecord<String, OTUngdomResource> consumerRecord) {
+    private void addResourceToCache(ConsumerRecord<String, OtUngdomResource> consumerRecord) {
         this.eventLogger.logDataRecieved();
         if (consumerRecord.value() == null) {
             getCache().remove(consumerRecord.key());
         } else {
-            OTUngdomResource OTUngdomResource = consumerRecord.value();
-            linker.mapLinks(OTUngdomResource);
-            getCache().put(consumerRecord.key(), OTUngdomResource, linker.hashCodes(OTUngdomResource));
+            OtUngdomResource OtUngdomResource = consumerRecord.value();
+            linker.mapLinks(OtUngdomResource);
+            getCache().put(consumerRecord.key(), OtUngdomResource, linker.hashCodes(OtUngdomResource));
         }
     }
 
     @Override
-    public Optional<OTUngdomResource> getBySystemId(String systemId) {
+    public Optional<OtUngdomResource> getBySystemId(String systemId) {
         return getCache().getLastUpdatedByFilter(systemId.hashCode(),
                 resource -> Optional
                         .ofNullable(resource)
-                        .map(OTUngdomResource::getSystemId)
+                        .map(OtUngdomResource::getSystemId)
                         .map(Identifikator::getIdentifikatorverdi)
                         .map(systemId::equals)
                         .orElse(false));
