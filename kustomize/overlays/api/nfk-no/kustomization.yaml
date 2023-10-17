@@ -8,8 +8,8 @@ patchesStrategicMerge:
   - kafka-user-and-acl.yaml
   - ingress-route.yaml
 commonLabels:
-  app.kubernetes.io/name: fint-core-consumer-utdanning-larling
-  app.kubernetes.io/instance: fint-core-consumer-utdanning-larling_nfk-no
+  app.kubernetes.io/name: fint-core-consumer-utdanning-ot
+  app.kubernetes.io/instance: fint-core-consumer-utdanning-ot_nfk-no
   app.kubernetes.io/version: latest
   app.kubernetes.io/component: backend
   app.kubernetes.io/part-of: fint-core

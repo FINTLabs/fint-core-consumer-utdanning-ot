@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: fint-core-consumer-utdanning-larling
+  name: fint-core-consumer-utdanning-ot
 data:
   fint.consumer.org-id: 'trondelagfylke.no'
   fint.kafka.topic.org-id: 'trondelagfylke.no'
-  spring.kafka.consumer.group-id: 'consumer-utdanning-larling-api'
+  spring.kafka.consumer.group-id: 'consumer-utdanning-ot-api'
   fint.relations.default-base-url: 'https://api.felleskomponent.no'
