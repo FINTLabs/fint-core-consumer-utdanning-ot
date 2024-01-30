@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import no.fint.model.felles.kompleksedatatyper.Identifikator;
 import no.fint.model.resource.felles.PersonResource;
+import no.fint.model.resource.utdanning.ot.OtUngdomResource;
 import no.fintlabs.cache.Cache;
 import no.fintlabs.cache.CacheManager;
 import no.fintlabs.cache.packing.PackingTypes;
@@ -21,20 +22,16 @@ import java.util.Optional;
 public class PersonService extends CacheService<PersonResource> {
 
     private final EntityKafkaConsumer<PersonResource> entityKafkaConsumer;
-
     private final PersonLinker linker;
-
-    private final PersonResponseKafkaConsumer personResponseKafkaConsumer;
 
     public PersonService(
             PersonConfig consumerConfig,
             CacheManager cacheManager,
             PersonEntityKafkaConsumer entityKafkaConsumer,
-            PersonLinker linker, PersonResponseKafkaConsumer personResponseKafkaConsumer) {
+            PersonLinker linker) {
         super(consumerConfig, cacheManager, entityKafkaConsumer);
         this.entityKafkaConsumer = entityKafkaConsumer;
         this.linker = linker;
-        this.personResponseKafkaConsumer = personResponseKafkaConsumer;
     }
 
     @Override
@@ -54,13 +51,9 @@ public class PersonService extends CacheService<PersonResource> {
         if (resource == null) {
             getCache().remove(consumerRecord.key());
         } else {
-            linker.mapLinks(resource);
-            this.getCache().put(consumerRecord.key(), resource, linker.hashCodes(resource));
-            if (consumerRecord.headers().lastHeader("event-corr-id") != null){
-                String corrId = new String(consumerRecord.headers().lastHeader("event-corr-id").value(), StandardCharsets.UTF_8);
-                log.debug("Adding corrId to EntityResponseCache: {}", corrId);
-                personResponseKafkaConsumer.getEntityCache().add(corrId, resource);
-            }
+            PersonResource personResource = consumerRecord.value();
+            linker.mapLinks(personResource);
+            getCache().put(consumerRecord.key(), personResource, linker.hashCodes(personResource));
         }
     }
 
