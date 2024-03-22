@@ -54,7 +54,6 @@ jobs:
       matrix:
         org:
 #          - fintlabs-no
-          - viken-no
           - visma-com
           - ude-oslo-kommune-no
           - innlandetfylke-no
@@ -64,7 +63,6 @@ jobs:
           - vtfk-no
           - trondelagfylke-no
           - nfk-no
-          - tffk-no
           - vestfoldfylke-no
           - telemarkfylke-no
           - rogfk-no
