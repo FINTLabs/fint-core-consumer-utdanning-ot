@@ -5,11 +5,9 @@ metadata:
 spec:
   port: 8080
   image: ghcr.io/fintlabs/fint-core-consumer-utdanning-ot:latest
-  env:
-    - name: fint.consumer.domain
-      value: utdanning
-    - name: fint.consumer.package
-      value: ot
+  envFrom:
+    - configMapRef:
+        name: fint-core-consumer-config
   url:
     hostname: beta.felleskomponent.no
   ingress:

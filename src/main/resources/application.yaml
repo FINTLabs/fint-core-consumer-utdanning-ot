@@ -1,6 +1,3 @@
-server:
-  port: 8080
-
 spring:
   security:
     oauth2:
@@ -11,16 +8,18 @@ spring:
     base-path: /utdanning/ot
   kafka:
     consumer:
-      group-id: # consumer-utdanning-ot-<your-instance-id>
+      group-id: consumer-utdanning-larling
 
 fint:
   consumer:
-    org-id:
+    domain: utdanning
+    package: ot
+    org-id: ${fint.org-id}
   kafka:
     application-id: consumer-utdanning-ot
     enable-ssl: true
     topic:
-      org-id: fintlabs.no
+      org-id: ${fint.org-id}
       domain-context: fint-core
   relations:
     default-base-url: https://beta.felleskomponent.no
