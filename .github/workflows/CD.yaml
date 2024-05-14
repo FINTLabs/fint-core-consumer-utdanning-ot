@@ -33,7 +33,9 @@ jobs:
         id: meta
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: type=sha,enable=true,priority=100,prefix=shaF-,suffix=,format=short
+          tags: |
+            type=sha,enable=true,priority=100,prefix=sha-,suffix=,format=short
+            latest
 
       - name: Build and push Docker image
         uses: docker/build-push-action@v4
@@ -53,19 +55,13 @@ jobs:
     strategy:
       matrix:
         org:
-#          - fintlabs-no
-          - visma-com
-          - ude-oslo-kommune-no
-          - innlandetfylke-no
-          - agderfk-no
-          - vlfk-no
           - mrfylke-no
-          - vtfk-no
-          - trondelagfylke-no
           - nfk-no
-          - vestfoldfylke-no
-          - telemarkfylke-no
           - rogfk-no
+          - telemarkfylke-no
+          - tffk-no
+          - trondelagfylke-no
+          - vestfoldfylke-no
         cluster:
 #          - aks-alpha-fint-2021-11-18
           - aks-beta-fint-2021-11-23
@@ -73,6 +69,8 @@ jobs:
 #          - aks-pwf-fint-2021-10-20
         exclude:
           - org: rogfk-no
+            cluster: aks-api-fint-2022-02-08
+          - org: tffk-no
             cluster: aks-api-fint-2022-02-08
 
     steps:
