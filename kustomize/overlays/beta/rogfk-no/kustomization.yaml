@@ -3,9 +3,15 @@ kind: Kustomization
 namespace: rogfk-no
 resources:
   - ../../../base
-patches:
-  - path: application.yaml
-labels:
-  - pairs:
-      app.kubernetes.io/instance: fint-core-consumer-utdanning-ot_rogfk_no
-      fintlabs.no/org-id: rogfk.no
+patchesStrategicMerge:
+  - config-map.yaml
+  - kafka-user-and-acl.yaml
+  - ingress-route.yaml
+commonLabels:
+  app.kubernetes.io/name: fint-core-consumer-utdanning-ot
+  app.kubernetes.io/instance: fint-core-consumer-utdanning-ot_rogfk-no
+  app.kubernetes.io/version: latest
+  app.kubernetes.io/component: backend
+  app.kubernetes.io/part-of: fint-core
+  fintlabs.no/team: core
+  fintlabs.no/org-id: rogfk.no

@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: fint-core-consumer-utdanning-ot
+data:
+  TZ: 'Europe/Oslo'
+  JAVA_TOOLS_OPTIONS: '-XX:+ExitOnOutOfMemoryError -Xmx480M'
+  spring.webflux.base-path: '/utdanning/ot'
+  fint.consumer.domain: 'utdanning'
+  fint.consumer.package: 'ot'
