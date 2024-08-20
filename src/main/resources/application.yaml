@@ -14,6 +14,11 @@ spring:
       group-id: # consumer-utdanning-ot-<your-instance-id>
 
 fint:
+  security:
+    open-paths: |
+      /api-docs/**,
+      /swagger/**,
+      /actuator/prometheus
   consumer:
     org-id:
   kafka:
