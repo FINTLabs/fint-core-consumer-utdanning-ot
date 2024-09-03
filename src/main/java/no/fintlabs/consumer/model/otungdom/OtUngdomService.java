@@ -36,11 +36,11 @@ public class OtUngdomService extends CacheService<OtUngdomResource> {
 
     @PostConstruct
     private void registerKafkaListener() {
-        long retension = elevfravarKafkaConsumer.registerListener(OtUngdomResource.class, this::addResourceToCache);
-        getCache().setRetentionPeriodInMs(retension);
+        elevfravarKafkaConsumer.registerListener(OtUngdomResource.class, this::addResourceToCache);
     }
 
     private void addResourceToCache(ConsumerRecord<String, OtUngdomResource> consumerRecord) {
+        updateRetensionTime(consumerRecord.headers().lastHeader("topic-retension-time"));
         this.eventLogger.logDataRecieved();
         if (consumerRecord.value() == null) {
             getCache().remove(consumerRecord.key());
